@@ -16,7 +16,7 @@ Xin chào! Tôi là Nguyễn Huy Điền một Lập Trình Viên Frontend với
 - Các khóa học chuyên sâu về phát triển Frontend và UX/UI Design
 
 ### Kinh Nghiệm
-- 3+ năm kinh nghiệm phát triển web
+- 2+ năm kinh nghiệm phát triển web
 - Chuyên môn về React, TypeScript và TailwindCSS
 - Làm việc với nhiều dự án từ trang web thương mại điện tử đến ứng dụng web phức tạp
 

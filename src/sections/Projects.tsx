@@ -13,7 +13,7 @@ interface Project {
 }
 
 const Projects: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [activeFilter, setActiveFilter] = useState<string>('tất cả');
 
   const projectsData: Project[] = [
     {

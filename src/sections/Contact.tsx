@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { FadeIn } from '../components/AnimatePresence';
 import { Send, MapPin, Phone, Mail } from 'lucide-react';
+import emailjs from 'emailjs-com';
+
+const SERVICE_ID = 'service_wn1vakg';
+const TEMPLATE_ID = 'template_4dlgpjh';
+const USER_ID = 'BLSwyHMlMivkqNoCJ';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +17,7 @@ const Contact: React.FC = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -21,18 +27,30 @@ const Contact: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
+    setError(null);
+
+    emailjs.send(
+      SERVICE_ID,
+      TEMPLATE_ID,
+      {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message
+      },
+      USER_ID
+    )
+    .then(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      // Reset submission status after 5 seconds
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 5000);
-    }, 1500);
+      setTimeout(() => setIsSubmitted(false), 5000);
+    })
+    .catch((error) => {
+      setIsSubmitting(false);
+      setError('Gửi thất bại. Vui lòng thử lại!');
+      console.error('EmailJS error:', error);
+    });
   };
   
   const contactInfo = [
@@ -172,6 +190,8 @@ const Contact: React.FC = () => {
                       </>
                     )}
                   </button>
+                  
+                  {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
                 </>
               )}
             </form>

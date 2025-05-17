@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FadeIn } from '../components/AnimatePresence';
 import { ExternalLink, Github } from 'lucide-react';
 
+
 interface Project {
   id: number;
   title: string;

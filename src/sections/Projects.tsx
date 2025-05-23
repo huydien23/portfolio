@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import { FadeIn } from '../components/AnimatePresence';
 import { ExternalLink, Github } from 'lucide-react';
 
+// Import images
+import portfolioImg from '../assets/images/project/portfolio.png';
+import nhaTroImg from '../assets/images/project/nha-tro-ket-noi.png';
+import noiThatImg from '../assets/images/project/noi-that.png';
+import benhVienImg from '../assets/images/project/winform-qlbenhvien.png';
+import dongVatImg from '../assets/images/project/pham-mem-nhan-dien-dong-vat.png';
+import xuHuongImg from '../assets/images/project/phan-tich-xu-huong-thi-truong.png';
+
 
 interface Project {
   id: number;
@@ -21,7 +29,7 @@ const Projects: React.FC = () => {
       id: 1,
       title: 'Portfolio Website',
       description: 'Website cá nhân hiện đại xây dựng bằng ReactJS, Tailwind CSS, TypeScript',
-      image: '../../src/assets/images/project/portfolio.png',
+      image: portfolioImg,
       tags: ['Frontend', 'ReactJS', 'Tailwind CSS', 'TypeScript'],
       demoUrl: 'diendev.netlify.app',
       githubUrl: 'https://github.com/huydien23/portfolio.git',
@@ -30,7 +38,7 @@ const Projects: React.FC = () => {
       id: 2,
       title: 'Website Nhà Trọ Kết Nối',
       description: 'Website Nhà Trọ Kết Nối với HTML, CSS, JavaScript,Bootstrap, jQuery, Firebase',
-      image: '../../src/assets/images/project/nha-tro-ket-noi.png',
+      image: nhaTroImg,
       tags: ['Frontend', 'HTML', 'CSS', 'JavaScript', 'Bootstrap', 'jQuery', 'Firebase'],
       demoUrl: 'https://nhatroketnoi.id.vn/',
       githubUrl: 'https://github.com/huydien23/project-rooms.git',
@@ -39,7 +47,7 @@ const Projects: React.FC = () => {
       id: 3,
       title: 'Website Bán Nội Thất',
       description: 'Website bán Nội Thất Gia Phương Home được xây dựng bằng ReactJS, Tailwind CSS, TypeScript, Superbase',
-      image: '../../src/assets/images/project/noi-that.png',
+      image: noiThatImg,
       tags: ['Frontend', 'ReactJS', 'Tailwind CSS', 'TypeScript', 'Superbase'],
       demoUrl: '#',
       githubUrl: '#',
@@ -57,7 +65,7 @@ const Projects: React.FC = () => {
       id: 5,
       title: 'WinForm Quản Lý Bệnh Viện',
       description: 'Xây dựng WinForm quản lý bệnh viện với C#, .NET Framework, Windows Forms, ADO.NET.',
-      image: '../../src/assets/images/project/winform-qlbenhvien.png',
+      image: benhVienImg,
       tags: ['Backend', 'C#', '.NET Framework', 'Windows Forms', 'ADO.NET'],
       demoUrl: '#',
       githubUrl: '#',
@@ -66,7 +74,7 @@ const Projects: React.FC = () => {
       id: 6,
       title: 'Phần Mềm Nhận Diện Động Vật',
       description: 'Phần mềm nhận diện động vật với Python, Machine Learning, Flask.',
-      image: '../../src/assets/images/project/pham-mem-nhan-dien-dong-vat.png',
+      image: dongVatImg,
       tags: ['AI', 'Python', 'Machine Learning', 'Flask', 'TensorFlow', 'Keras', 'OpenCV'],
       demoUrl: '#',
       githubUrl: '#',
@@ -75,7 +83,7 @@ const Projects: React.FC = () => {
       id: 7,
       title: 'Phần Mềm Phân Tích Xu Hướng Tài Chính Thị Trường',
       description: 'Phân tích xu hướng tài chính thị trường với Python, Machine Learning, Flask.',
-      image: '../../src/assets/images/project/phan-tich-xu-huong-thi-truong.png',
+      image: xuHuongImg,
       tags: ['AI', 'Python', 'Machine Learning', 'Flask'],
       demoUrl: '#',
       githubUrl: '#',

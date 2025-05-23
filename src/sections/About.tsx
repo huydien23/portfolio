@@ -1,13 +1,29 @@
 import React from 'react';
 import { FadeIn } from '../components/AnimatePresence';
-import { Code, Palette, Globe, Cpu } from 'lucide-react';
+import { Code, Palette, Globe, Cpu, Monitor, Database, Brain } from 'lucide-react';
 
 const About: React.FC = () => {
   const skills = [
-    { name: 'Phát triển Frontend', icon: <Code className="w-6 h-6" />, description: 'Xây dựng giao diện người dùng đáp ứng và tương tác với công nghệ hiện đại.' },
-    { name: 'Thiết kế UI/UX', icon: <Palette className="w-6 h-6" />, description: 'Tạo trải nghiệm người dùng trực quan và hấp dẫn.' },
-    { name: 'Hiệu suất Web', icon: <Globe className="w-6 h-6" />, description: 'Tối ưu hóa trang web cho tốc độ, khả năng truy cập và SEO.' },
-    { name: 'Kỹ năng Kỹ thuật', icon: <Cpu className="w-6 h-6" />, description: 'Thành thạo JavaScript, TypeScript, React và các framework web hiện đại.' },
+    {
+      name: 'Phát triển Frontend',
+      icon: <Code className="w-6 h-6" />,
+      description: 'HTML, CSS, JavaScript, Bootstrap, jQuery, Tailwind CSS, ReactJS, NextJS'
+    },
+    {
+      name: 'Phát triển Backend',
+      icon: <Database className="w-6 h-6" />,
+      description: 'NodeJS, C#, ASP.NET MVC, ASP.NET Core, PHP, Laravel, Python, Django'
+    },
+    {
+      name: 'Phát triển Desktop',
+      icon: <Monitor className="w-6 h-6" />,
+      description: 'C#, .NET Framework, ADO.NET, Windows Forms'
+    },
+    {
+      name: 'Trí tuệ nhân tạo',
+      icon: <Brain className="w-6 h-6" />,
+      description: 'Python, Machine Learning, Deep Learning, Data Analysis'
+    },
   ];
 
   return (
@@ -44,15 +60,15 @@ const About: React.FC = () => {
                 <span className="text-blue-600 dark:text-blue-400">Điền Dev</span>
               </h3>
               <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-                Tôi là một lập trình viên web đầy đam mê với 2 năm kinh nghiệm tạo ra các 
-                trang web và ứng dụng web hiện đại, đáp ứng. Hành trình của tôi trong phát 
-                triển web bắt đầu với sự tò mò về cách mọi thứ hoạt động trên internet, 
+                Tôi là một lập trình viên web đầy đam mê với 2 năm kinh nghiệm tạo ra các
+                trang web và ứng dụng web hiện đại, đáp ứng. Hành trình của tôi trong phát
+                triển web bắt đầu với sự tò mò về cách mọi thứ hoạt động trên internet,
                 điều này đã dẫn tôi đến con đường tạo ra các trải nghiệm số.
               </p>
               <p className="text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
-                Cách tiếp cận của tôi kết hợp giữa chuyên môn kỹ thuật và giải quyết vấn đề 
-                sáng tạo để mang lại các giải pháp không chỉ đẹp mà còn hoạt động cực kỳ tốt. 
-                Tôi luôn học hỏi và thích nghi với các công nghệ mới để đảm bảo kỹ năng của 
+                Cách tiếp cận của tôi kết hợp giữa chuyên môn kỹ thuật và giải quyết vấn đề
+                sáng tạo để mang lại các giải pháp không chỉ đẹp mà còn hoạt động cực kỳ tốt.
+                Tôi luôn học hỏi và thích nghi với các công nghệ mới để đảm bảo kỹ năng của
                 mình luôn ở đỉnh cao của ngành phát triển web.
               </p>
               <a

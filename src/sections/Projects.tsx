@@ -14,50 +14,77 @@ interface Project {
 }
 
 const Projects: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<string>('tất cả');
+  const [activeFilter, setActiveFilter] = useState<string>('Tất cả');
 
   const projectsData: Project[] = [
     {
       id: 1,
-      title: 'Website Thương Mại Điện Tử',
-      description: 'Nền tảng thương mại điện tử đáp ứng đầy đủ được xây dựng bằng React và Node.js, với các tính năng lọc sản phẩm, giỏ hàng và tích hợp thanh toán.',
-      image: 'https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      tags: ['React', 'Node.js', 'MongoDB'],
-      demoUrl: '#',
-      githubUrl: '#',
+      title: 'Portfolio Website',
+      description: 'Website cá nhân hiện đại xây dựng bằng ReactJS, Tailwind CSS, TypeScript',
+      image: '../../src/assets/images/project/portfolio.png',
+      tags: ['Frontend', 'ReactJS', 'Tailwind CSS', 'TypeScript'],
+      demoUrl: 'diendev.netlify.app',
+      githubUrl: 'https://github.com/huydien23/portfolio.git',
     },
     {
       id: 2,
-      title: 'Ứng Dụng Quản Lý Công Việc',
-      description: 'Ứng dụng năng suất để quản lý các nhiệm vụ và dự án với chức năng kéo thả, thông báo và tính năng cộng tác nhóm.',
-      image: 'https://images.pexels.com/photos/6956353/pexels-photo-6956353.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      tags: ['React', 'Firebase', 'TypeScript'],
-      demoUrl: '#',
-      githubUrl: '#',
+      title: 'Website Nhà Trọ Kết Nối',
+      description: 'Website Nhà Trọ Kết Nối với HTML, CSS, JavaScript,Bootstrap, jQuery, Firebase',
+      image: '../../src/assets/images/project/nha-tro-ket-noi.png',
+      tags: ['Frontend', 'HTML', 'CSS', 'JavaScript', 'Bootstrap', 'jQuery', 'Firebase'],
+      demoUrl: 'https://nhatroketnoi.id.vn/',
+      githubUrl: 'https://github.com/huydien23/project-rooms.git',
     },
     {
       id: 3,
-      title: 'Bảng Điều Khiển Tài Chính',
-      description: 'Bảng điều khiển phân tích để hiển thị dữ liệu tài chính với các biểu đồ tương tác, lọc dữ liệu và cập nhật theo thời gian thực.',
-      image: 'https://images.pexels.com/photos/7567441/pexels-photo-7567441.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      tags: ['Vue.js', 'D3.js', 'REST API'],
+      title: 'API Quản Lý Người Dùng',
+      description: 'Xây dựng RESTful API với NodeJS, Express, MongoDB, JWT.',
+      image: 'https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      tags: ['Backend', 'NodeJS', 'Express', 'MongoDB', 'RESTful API'],
       demoUrl: '#',
       githubUrl: '#',
     },
     {
       id: 4,
-      title: 'Ứng Dụng Thời Tiết',
-      description: 'Ứng dụng thời tiết cung cấp điều kiện hiện tại và dự báo cho các địa điểm trên toàn thế giới, với hình ảnh trực quan đẹp mắt.',
-      image: 'https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      tags: ['JavaScript', 'API', 'CSS'],
+      title: 'Hệ thống quản lý công việc',
+      description: 'Ứng dụng quản lý công việc với ASP.NET Core, Entity Framework, SQL Server.',
+      image: 'https://images.pexels.com/photos/1181676/pexels-photo-1181676.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      tags: ['Backend', 'ASP.NET Core', 'Entity Framework', 'SQL Server', 'C#'],
+      demoUrl: '#',
+      githubUrl: '#',
+    },
+    {
+      id: 5,
+      title: 'Website tin tức',
+      description: 'Xây dựng website tin tức với PHP, Laravel, MySQL.',
+      image: 'https://images.pexels.com/photos/261949/pexels-photo-261949.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      tags: ['Backend', 'PHP', 'Laravel', 'MySQL'],
+      demoUrl: '#',
+      githubUrl: '#',
+    },
+    {
+      id: 6,
+      title: 'Phần mềm quản lý bán hàng',
+      description: 'Ứng dụng desktop quản lý bán hàng với C#, .NET Framework, Windows Forms, ADO.NET.',
+      image: 'https://images.pexels.com/photos/267614/pexels-photo-267614.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      tags: ['Desktop', 'C#', '.NET Framework', 'Windows Forms', 'ADO.NET'],
+      demoUrl: '#',
+      githubUrl: '#',
+    },
+    {
+      id: 7,
+      title: 'Phân tích xu hướng tài chính thị trường ',
+      description: 'Phân tích xu hướng tài chính thị trường với Python, Machine Learning, Flask.',
+      image: '../../src/assets/images/project/phan-mem-phan-tich-xu-huong.png',
+      tags: ['AI', 'Python', 'Machine Learning', 'Flask'],
       demoUrl: '#',
       githubUrl: '#',
     },
   ];
 
-  const filters = ['tất cả', 'React', 'JavaScript', 'TypeScript', 'Node.js', 'Vue.js'];
+  const filters = ['Tất cả', 'Frontend', 'Backend', 'Desktop', 'AI'];
 
-  const filteredProjects = activeFilter === 'tất cả'
+  const filteredProjects = activeFilter === 'Tất cả'
     ? projectsData
     : projectsData.filter(project => project.tags.includes(activeFilter));
 
@@ -77,11 +104,10 @@ const Projects: React.FC = () => {
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`px-4 py-2 rounded-full transition-all ${
-                  activeFilter === filter
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600'
-                }`}
+                className={`px-4 py-2 rounded-full transition-all ${activeFilter === filter
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600'
+                  }`}
               >
                 {filter.charAt(0).toUpperCase() + filter.slice(1)}
               </button>

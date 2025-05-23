@@ -4,7 +4,7 @@ import { ArrowDown } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const [typed, setTyped] = useState('');
-  const fullText = 'Lập Trình Viên Frontend';
+  const fullText = 'Lập Trình Viên Full Stack';
   const typingSpeed = 100;
   
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FadeIn } from '../components/AnimatePresence';
-import { Code, Palette, Globe, Cpu, Monitor, Database, Brain } from 'lucide-react';
+import { Code, Palette, Cpu, Monitor, Database, Brain } from 'lucide-react';
 
 const About: React.FC = () => {
   const skills = [

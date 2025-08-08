@@ -9,7 +9,7 @@ import noiThatImg from '../assets/images/project/noi-that.png';
 import benhVienImg from '../assets/images/project/winform-qlbenhvien.png';
 import dongVatImg from '../assets/images/project/pham-mem-nhan-dien-dong-vat.png';
 import xuHuongImg from '../assets/images/project/phan-tich-xu-huong-thi-truong.png';
-
+import quanLyTaiLieuImg from '../assets/images/project/quanly-tailieu.png';
 
 interface Project {
   id: number;
@@ -88,13 +88,64 @@ const Projects: React.FC = () => {
       demoUrl: '#',
       githubUrl: '#',
     },
+    {
+      id: 8,
+      title: 'Hệ thống Quản lý Tài liệu Khoa học',
+      description: 'Website quản lý tài liệu khoa học với ASP.NET Core, Entity Framework, SQL Server, MVC, Razor View, Bootstrap, jQuery.',
+      image: quanLyTaiLieuImg,
+      tags: ['C#', 'ASP.NET Core', 'Entity Framework', 'SQL Server', 'MVC', 'Razor View', 'Bootstrap', 'jQuery'],
+      demoUrl: '#',
+      githubUrl: '#',
+    }
   ];
 
-  const filters = ['Tất cả', 'Frontend', 'Backend', 'Desktop', 'AI'];
+  // Tự động tạo danh sách filters từ các tags của projects
+  const getAllUniqueCategories = () => {
+    const categories = new Set<string>();
+
+    projectsData.forEach(project => {
+      project.tags.forEach(tag => {
+        // Phân loại các tags thành categories
+        if (['ReactJS', 'HTML', 'CSS', 'JavaScript', 'Bootstrap', 'jQuery', 'Tailwind CSS', 'TypeScript', 'Firebase', 'Superbase'].includes(tag)) {
+          categories.add('Frontend');
+        } else if (['ASP.NET Core', 'Entity Framework', 'SQL Server', 'C#', '.NET Framework', 'ADO.NET', 'MVC', 'Razor View'].includes(tag)) {
+          categories.add('Backend');
+        } else if (['Windows Forms'].includes(tag)) {
+          categories.add('Desktop');
+        } else if (['Python', 'Machine Learning', 'Flask', 'TensorFlow', 'Keras', 'OpenCV'].includes(tag)) {
+          categories.add('AI');
+        }
+      });
+    });
+
+    return ['Tất cả', ...Array.from(categories).sort()];
+  };
+
+  const filters = getAllUniqueCategories();
 
   const filteredProjects = activeFilter === 'Tất cả'
     ? projectsData
-    : projectsData.filter(project => project.tags.includes(activeFilter));
+    : projectsData.filter(project => {
+      // Kiểm tra category dựa trên tags
+      if (activeFilter === 'Frontend') {
+        return project.tags.some(tag =>
+          ['ReactJS', 'HTML', 'CSS', 'JavaScript', 'Bootstrap', 'jQuery', 'Tailwind CSS', 'TypeScript', 'Firebase', 'Superbase'].includes(tag)
+        );
+      } else if (activeFilter === 'Backend') {
+        return project.tags.some(tag =>
+          ['ASP.NET Core', 'Entity Framework', 'SQL Server', 'C#', '.NET Framework', 'ADO.NET', 'MVC', 'Razor View'].includes(tag)
+        );
+      } else if (activeFilter === 'Desktop') {
+        return project.tags.some(tag =>
+          ['Windows Forms'].includes(tag)
+        );
+      } else if (activeFilter === 'AI') {
+        return project.tags.some(tag =>
+          ['Python', 'Machine Learning', 'Flask', 'TensorFlow', 'Keras', 'OpenCV'].includes(tag)
+        );
+      }
+      return false;
+    });
 
   return (
     <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-800">

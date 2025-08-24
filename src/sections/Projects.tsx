@@ -88,15 +88,15 @@ const Projects: React.FC = () => {
       demoUrl: '#',
       githubUrl: '#',
     },
-    {
-      id: 8,
-      title: 'Hệ thống Quản lý Tài liệu Khoa học',
-      description: 'Website quản lý tài liệu khoa học với ASP.NET Core, Entity Framework, SQL Server, MVC, Razor View, Bootstrap, jQuery.',
-      image: quanLyTaiLieuImg,
-      tags: ['C#', 'ASP.NET Core', 'Entity Framework', 'SQL Server', 'MVC', 'Razor View', 'Bootstrap', 'jQuery'],
-      demoUrl: '#',
-      githubUrl: '#',
-    }
+    // {
+    //   id: 8,
+    //   title: 'Hệ thống Quản lý Tài liệu Khoa học',
+    //   description: 'Website quản lý tài liệu khoa học với ASP.NET Core, Entity Framework, SQL Server, MVC, Razor View, Bootstrap, jQuery.',
+    //   image: quanLyTaiLieuImg,
+    //   tags: ['C#', 'ASP.NET Core', 'Entity Framework', 'SQL Server', 'MVC', 'Razor View', 'Bootstrap', 'jQuery'],
+    //   demoUrl: '#',
+    //   githubUrl: '#',
+    // }
   ];
 
   // Tự động tạo danh sách filters từ các tags của projects

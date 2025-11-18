@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { FadeIn } from '../components/AnimatePresence';
 import { ArrowDown } from 'lucide-react';
+import { usePageTracking } from '../hooks/useAnalytics';
 
 const Hero: React.FC = () => {
   const [typed, setTyped] = useState('');
   const fullText = 'Lập Trình Viên Full Stack';
   const typingSpeed = 100;
+  
+  // Track page view
+  usePageTracking('home');
   
   useEffect(() => {
     if (typed.length < fullText.length) {

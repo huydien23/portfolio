@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
+    force: true, // Ép Vite tải lại module bị lỗi trong esbuild
     exclude: ['lucide-react'],
   },
 });

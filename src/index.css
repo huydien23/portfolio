@@ -53,3 +53,8 @@
 .bg-gradient-radial {
   background-image: radial-gradient(var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%);
 }
+
+/* Profile page — editorial quote */
+.profile-quote-mark {
+  font-family: 'Georgia', 'Times New Roman', serif;
+}

@@ -1,46 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import { HomePage } from './pages/home';
+import { ProfilePage } from './pages/profile';
+import { HeaderWidget } from './widgets/header';
+import { IntroLoader } from './widgets/intro-loader';
+import { ScrollProgress } from './components/scroll';
 import { ThemeProvider } from './contexts/ThemeContext';
-import Navbar from './components/Navbar';
-import Hero from './sections/Hero';
-import About from './sections/About';
-import Projects from './sections/Projects';
-import Contact from './sections/Contact';
-import Footer from './components/Footer';
-import ScrollToTop from './components/ScrollToTop';
-import { AnimatePresence } from './components/AnimatePresence';
+import { LangProvider } from './contexts/LangContext';
 
-function App() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-    };
-
-    document.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      document.removeEventListener('scroll', handleScroll);
-    };
-  }, [scrolled]);
+function AppContent() {
+  const [showLoader, setShowLoader] = useState(true);
 
   return (
+    <div className="bg-slate-50 dark:bg-abyss-950 min-h-screen text-slate-900 dark:text-slate-100 font-sans selection:bg-ocean-500/20 selection:text-ocean-900 transition-colors duration-300">
+      <AnimatePresence>
+        {showLoader && (
+          <IntroLoader onComplete={() => setShowLoader(false)} />
+        )}
+      </AnimatePresence>
+      <HeaderWidget />
+      <ScrollProgress />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Routes>
+    </div>
+  );
+}
+
+function App() {
+  return (
     <ThemeProvider>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-        <Navbar scrolled={scrolled} />
-        <AnimatePresence>
-          <main>
-            <Hero />
-            <About />
-            <Projects />
-            <Contact />
-          </main>
-        </AnimatePresence>
-        <Footer />
-        <ScrollToTop />
-      </div>
+      <LangProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </LangProvider>
     </ThemeProvider>
   );
 }

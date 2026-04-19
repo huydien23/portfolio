@@ -19,14 +19,12 @@ export const useTheme = () => {
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    // Check for saved theme preference or user's system preference
     const savedTheme = localStorage.getItem('theme') as Theme | null;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     return savedTheme || (prefersDark ? 'dark' : 'light');
   });
 
   useEffect(() => {
-    // Update class on document.documentElement when theme changes
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {

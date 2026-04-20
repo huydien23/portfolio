@@ -3,13 +3,17 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { HomePage } from './pages/home';
 import { ProfilePage } from './pages/profile';
+import { AdminLoginPage } from './pages/admin-login';
+import { AdminDashboardPage } from './pages/admin-dashboard';
 import { HeaderWidget } from './widgets/header';
 import { IntroLoader } from './widgets/intro-loader';
 import { ScrollProgress } from './components/scroll';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { LangProvider } from './contexts/LangContext';
+import { AuthProvider } from './contexts/AuthContext';
+import { ProtectedRoute } from './shared/ui/ProtectedRoute';
 
-function AppContent() {
+function PublicLayout() {
   const [showLoader, setShowLoader] = useState(true);
 
   return (
@@ -33,12 +37,28 @@ function App() {
   return (
     <ThemeProvider>
       <LangProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              {/* Admin routes – no public header/loader */}
+              <Route path="/admin" element={<AdminLoginPage />} />
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <AdminDashboardPage />
+                  </ProtectedRoute>
+                }
+              />
+              {/* Public portfolio routes */}
+              <Route path="/*" element={<PublicLayout />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
       </LangProvider>
     </ThemeProvider>
   );
 }
 
 export default App;
+

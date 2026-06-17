@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SITE_CONTENT } from '../../shared/config';
 import { useLang } from '../../contexts/LangContext';
-import { 
-  Download, Calendar, Award, ExternalLink, Mail, Github, 
-  Linkedin, Globe, Briefcase, GraduationCap, Languages, ChevronDown 
+import { useSiteProfile, useSkills } from '../../entities/site/hooks';
+import { pickLocale, LocalizedString } from '../../entities/site/model';
+import {
+  Download, Calendar, Award, ExternalLink, Mail, Github,
+  Linkedin, Globe, Briefcase, GraduationCap, Languages, ChevronDown
 } from 'lucide-react';
 
 const fadeUp = {
@@ -17,8 +18,12 @@ const fadeUp = {
 };
 
 export const ProfilePage = () => {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const { profile } = useSiteProfile();
+  const { categories } = useSkills();
   const [expandedCert, setExpandedCert] = useState<number | null>(null);
+  const contact = profile.contact;
+  const loc = (s: LocalizedString) => pickLocale(s, lang);
 
   const experiences = [
     {
@@ -136,13 +141,13 @@ export const ProfilePage = () => {
 
               {/* Social links */}
               <div className="flex flex-wrap justify-center md:justify-start gap-2.5">
-                <a href={`mailto:${SITE_CONTENT.contact.email}`} className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-abyss-900 hover:bg-ocean-50 dark:hover:bg-ocean-900/20 border border-slate-200 dark:border-white/10 hover:border-ocean-300 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:text-ocean-700 transition-all shadow-sm">
-                  <Mail size={15} /> {SITE_CONTENT.contact.email}
+                <a href={`mailto:${contact.email}`} className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-abyss-900 hover:bg-ocean-50 dark:hover:bg-ocean-900/20 border border-slate-200 dark:border-white/10 hover:border-ocean-300 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:text-ocean-700 transition-all shadow-sm">
+                  <Mail size={15} /> {contact.email}
                 </a>
-                <a href={SITE_CONTENT.contact.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-abyss-900 hover:bg-ocean-50 dark:hover:bg-ocean-900/20 border border-slate-200 dark:border-white/10 hover:border-ocean-300 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:text-ocean-700 transition-all shadow-sm">
+                <a href={contact.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-abyss-900 hover:bg-ocean-50 dark:hover:bg-ocean-900/20 border border-slate-200 dark:border-white/10 hover:border-ocean-300 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:text-ocean-700 transition-all shadow-sm">
                   <Github size={15} /> GitHub
                 </a>
-                <a href={SITE_CONTENT.contact.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-abyss-900 hover:bg-ocean-50 dark:hover:bg-ocean-900/20 border border-slate-200 dark:border-white/10 hover:border-ocean-300 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:text-ocean-700 transition-all shadow-sm">
+                <a href={contact.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-abyss-900 hover:bg-ocean-50 dark:hover:bg-ocean-900/20 border border-slate-200 dark:border-white/10 hover:border-ocean-300 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:text-ocean-700 transition-all shadow-sm">
                   <Linkedin size={15} /> LinkedIn
                 </a>
               </div>
@@ -211,13 +216,13 @@ export const ProfilePage = () => {
               </motion.div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {SITE_CONTENT.skills.categories.map((cat, catIdx) => (
+                {categories.map((cat, catIdx) => (
                   <motion.div
                     key={cat.id}
                     initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-30px' }} variants={fadeUp} custom={catIdx}
                     className="bg-slate-50/70 dark:bg-white/5 rounded-xl p-5 border border-slate-100 dark:border-white/5 hover:border-ocean-200 dark:hover:border-ocean-500/30 transition-all duration-300"
                   >
-                    <h4 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-3">{t(`profile.${cat.id}`)}</h4>
+                    <h4 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-3">{loc(cat.name)}</h4>
                     <div className="flex flex-wrap gap-1.5">
                       {cat.items.map((item) => (
                         <div key={item.name} className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white dark:bg-abyss-800 rounded-lg text-[13px] text-slate-700 dark:text-slate-300 border border-slate-100 dark:border-white/10 hover:border-ocean-200 hover:text-ocean-700 transition-colors cursor-default shadow-sm font-medium">

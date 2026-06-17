@@ -11,7 +11,9 @@ import quanLyTaiLieuImg from '../../assets/images/project/quanly-tailieu.png';
 import monNgonImg from '../../assets/images/project/mon-ngon-viet-nam.png';
 import xlyAnhImg from '../../assets/images/project/phan-mem-xu-ly-anh.png';
 
-export const PROJECTS_DATA: ProjectEntity[] = [
+export type ProjectSeedData = Omit<ProjectEntity, 'status' | 'order'>;
+
+export const PROJECTS_DATA: ProjectSeedData[] = [
   {
     id: 'prj-portfolio',
     title: 'Portfolio Website',
@@ -151,4 +153,5 @@ export const PROJECTS_DATA: ProjectEntity[] = [
     year: 2022,
     featured: false,
   },
+
 ];

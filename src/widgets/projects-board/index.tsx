@@ -5,13 +5,12 @@ import {
   useMotionValue, useTransform, useSpring,
   LayoutGroup,
 } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Hourglass } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { PROJECTS_DATA } from '../../shared/data/projects-data';
-import { PROJECTS_DATA_EN } from '../../shared/data/projects-data.en';
+import { useProjects, filterFeatured, filterForPublic } from '../../entities/project/hooks';
+import { ProjectEntity } from '../../entities/project/model';
 import { ProjectArchive } from './ui/ProjectArchive';
 import { DetailModal } from './ui/DetailModal';
-import { ProjectEntity } from '../../entities/project/model';
 
 /* ════════════════════════════════════════════════
    3-D Tilt Featured Card
@@ -28,16 +27,15 @@ const FeaturedCard = ({ proj, idx, featuredLength, onSelect, viewDetailsLabel }:
   const cardRef = useRef<HTMLElement>(null);
   const isEven = idx % 2 === 0;
 
-  /* ── Motion values ── */
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
   const springX = useSpring(rawX, { stiffness: 150, damping: 20, mass: 0.5 });
   const springY = useSpring(rawY, { stiffness: 150, damping: 20, mass: 0.5 });
   const rotateX = useTransform(springY, [-0.5, 0.5], [10, -10]);
   const rotateY = useTransform(springX, [-0.5, 0.5], [-10, 10]);
-  const scale   = useSpring(1, { stiffness: 200, damping: 20 });
-  const glowX   = useTransform(springX, [-0.5, 0.5], [0, 100]);
-  const glowY   = useTransform(springY, [-0.5, 0.5], [0, 100]);
+  const scale = useSpring(1, { stiffness: 200, damping: 20 });
+  const glowX = useTransform(springX, [-0.5, 0.5], [0, 100]);
+  const glowY = useTransform(springY, [-0.5, 0.5], [0, 100]);
 
   const glowBg = useTransform(
     [glowX, glowY],
@@ -49,7 +47,7 @@ const FeaturedCard = ({ proj, idx, featuredLength, onSelect, viewDetailsLabel }:
     const rect = cardRef.current?.getBoundingClientRect();
     if (!rect) return;
     rawX.set((e.clientX - rect.left) / rect.width - 0.5);
-    rawY.set((e.clientY - rect.top)  / rect.height - 0.5);
+    rawY.set((e.clientY - rect.top) / rect.height - 0.5);
     scale.set(1.015);
   };
 
@@ -61,9 +59,11 @@ const FeaturedCard = ({ proj, idx, featuredLength, onSelect, viewDetailsLabel }:
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        onClick={() => onSelect(proj.id)}
+        onClick={() => proj.status === 'published' && onSelect(proj.id)}
         style={{ rotateX, rotateY, scale, transformStyle: 'preserve-3d' }}
-        className={`group flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} cursor-pointer items-stretch py-16 first:pt-0`}
+        className={`group flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-stretch py-16 first:pt-0 ${
+          proj.status === 'published' ? 'cursor-pointer' : 'cursor-not-allowed'
+        }`}
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
@@ -81,22 +81,48 @@ const FeaturedCard = ({ proj, idx, featuredLength, onSelect, viewDetailsLabel }:
           />
           <div className="absolute inset-0 bg-gradient-to-br from-slate-900/20 to-transparent group-hover:opacity-0 transition-opacity duration-500 z-10" />
           <img
-            src={proj.imageUrl}
+            src={proj.imageData || proj.imageUrl}
             alt={proj.title}
-            className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-700"
+            className={`w-full h-full object-cover scale-100 transition-all duration-700 ${
+              proj.status === 'published'
+                ? 'group-hover:scale-105'
+                : 'grayscale-[80%] opacity-50 saturate-50'
+            }`}
           />
           <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/10 dark:bg-black/40 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-black font-mono uppercase tracking-widest text-white">
             {proj.category}
           </div>
+
+          {/* Lock overlay cho project non-published */}
+          {proj.status !== 'published' && (
+            <div className="absolute inset-0 z-30 flex items-center justify-center bg-slate-900/30 dark:bg-abyss-950/40">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 shadow-lg shadow-amber-500/30 border border-amber-400">
+                <Hourglass size={16} className="text-slate-900" strokeWidth={2.5} />
+                <span className="text-slate-900 font-mono text-xs font-black uppercase tracking-[0.2em]">
+                  {proj.status === 'coming_soon' ? 'Coming Soon…' : 'Draft'}
+                </span>
+              </div>
+            </div>
+          )}
         </motion.div>
 
         {/* ── Info ── */}
         <div className={`w-full md:w-[45%] flex flex-col justify-center ${isEven ? 'md:pl-14 lg:pl-20' : 'md:pr-14 lg:pr-20'} pt-8 md:pt-0`}>
-          <span className="text-[11px] font-mono text-slate-300 dark:text-white/20 tracking-[0.3em] uppercase mb-4">
-            {(idx + 1).toString().padStart(2, '0')} / {featuredLength.toString().padStart(2, '0')}
-          </span>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-[11px] font-mono text-slate-300 dark:text-white/20 tracking-[0.3em] uppercase">
+              {(idx + 1).toString().padStart(2, '0')} / {featuredLength.toString().padStart(2, '0')}
+            </span>
+            {proj.status !== 'published' && (
+              <span
+                data-testid="featured-status-badge"
+                className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-500/30 text-amber-700 dark:text-amber-400 text-[10px] font-mono font-bold uppercase tracking-widest"
+              >
+                <Hourglass size={10} />
+                {proj.status === 'coming_soon' ? 'Coming Soon' : 'Draft'}
+              </span>
+            )}
+          </div>
 
-          {/* Title (shared layoutId) */}
           <motion.h3
             layoutId={`proj-title-${proj.id}`}
             className="font-display text-3xl lg:text-4xl font-black text-black dark:text-white mb-5 tracking-tighter uppercase group-hover:text-ocean-600 dark:group-hover:text-ocean-400 transition-colors leading-none"
@@ -134,18 +160,28 @@ const FeaturedCard = ({ proj, idx, featuredLength, onSelect, viewDetailsLabel }:
 export const ProjectsBoard = () => {
   const { t, i18n } = useTranslation();
   const [archiveOpen, setArchiveOpen] = useState(false);
-  const [selectedId, setSelectedId]   = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const activeData = i18n.language === 'en' ? PROJECTS_DATA_EN : PROJECTS_DATA;
+  const { projects, loading } = useProjects();
 
-  const featuredList = useMemo(
-    () => activeData.filter((p: ProjectEntity) => p.featured),
-    [i18n.language],
-  );
+  /* Filter & sort theo ngôn ngữ + status */
+  const visibleList = useMemo(() => {
+    return filterForPublic(projects).sort((a, b) => a.order - b.order);
+  }, [projects]);
+
+  /* Localize text theo ngôn ngữ hiện tại (nếu có field *En và ngôn ngữ là en) */
+  const localized = useMemo(() => {
+    const lang = i18n.language.startsWith('en') ? 'en' : 'vi';
+    return visibleList.map(p => lang === 'en'
+      ? { ...p, title: p.titleEn || p.title, description: p.descriptionEn || p.description, longDescription: p.longDescriptionEn || p.longDescription }
+      : p);
+  }, [visibleList, i18n.language]);
+
+  const featuredList = useMemo(() => filterFeatured(localized), [localized]);
 
   const selectedProj = useMemo(
-    () => activeData.find((p: ProjectEntity) => p.id === selectedId),
-    [selectedId, i18n.language],
+    () => localized.find(p => p.id === selectedId) ?? null,
+    [localized, selectedId],
   );
 
   /* Scroll lock */
@@ -153,6 +189,14 @@ export const ProjectsBoard = () => {
     document.body.style.overflow = (selectedId || archiveOpen) ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [selectedId, archiveOpen]);
+
+  /* Auto-close selectedId khi project đang chọn không còn clickable
+   * (vd: admin chuyển status published → coming_soon trong khi modal đang mở) */
+  useEffect(() => {
+    if (selectedId && selectedProj && selectedProj.status !== 'published') {
+      setSelectedId(null);
+    }
+  }, [selectedId, selectedProj]);
 
   return (
     <LayoutGroup>
@@ -165,7 +209,6 @@ export const ProjectsBoard = () => {
 
             {/* ─── Split Header ─── */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16 pb-8 border-b border-black/10 dark:border-white/10">
-              {/* Left */}
               <div className="flex flex-col items-start gap-5">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
@@ -197,7 +240,6 @@ export const ProjectsBoard = () => {
                 </motion.h2>
               </div>
 
-              {/* Right */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -217,32 +259,47 @@ export const ProjectsBoard = () => {
                     {t('projects.view_all')}
                   </span>
                   <span className="text-[10px] font-mono text-slate-400 dark:text-white/40 group-hover:text-white/80 transition-colors duration-300">
-                    ({PROJECTS_DATA.length})
+                    ({visibleList.length})
                   </span>
                   <ArrowUpRight size={14} className="text-slate-700 dark:text-white/60 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
                 </button>
               </motion.div>
             </div>
 
-            {/* ─── Featured List (3-D Tilt + Shared Layout) ─── */}
-            <div className="flex flex-col">
-              {featuredList.map((proj: ProjectEntity, idx: number) => (
-                <FeaturedCard
-                  key={proj.id}
-                  proj={proj}
-                  idx={idx}
-                  featuredLength={featuredList.length}
-                  onSelect={setSelectedId}
-                  viewDetailsLabel={t('projects.view_details')}
-                />
-              ))}
-            </div>
+            {/* ─── Featured List ─── */}
+            {loading ? (
+              <div className="py-20 text-center text-slate-400 dark:text-slate-600 text-sm font-mono uppercase tracking-widest">
+                {t('common.loading')}
+              </div>
+            ) : (
+              <>
+                <div className="flex flex-col">
+                  {featuredList.map((proj: ProjectEntity, idx: number) => (
+                    <FeaturedCard
+                      key={proj.id}
+                      proj={proj}
+                      idx={idx}
+                      featuredLength={featuredList.length}
+                      onSelect={setSelectedId}
+                      viewDetailsLabel={t('projects.view_details')}
+                    />
+                  ))}
+                </div>
+
+                {/* Empty state — admin chưa tích dự án nào là featured */}
+                {featuredList.length === 0 && (
+                  <div className="py-20 text-center text-slate-400 dark:text-slate-600 text-sm font-mono uppercase tracking-widest">
+                    {t('projects.empty_featured')}
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </section>
 
-        {/* ─── Full-page Detail Modal ─── */}
+        {/* ─── Full-page Detail Modal (chỉ mở nếu dự án clickable) ─── */}
         <AnimatePresence>
-          {selectedId && selectedProj && (
+          {selectedId && selectedProj && selectedProj.status === 'published' && (
             <DetailModal
               key={selectedId}
               project={selectedProj}
@@ -254,7 +311,10 @@ export const ProjectsBoard = () => {
         {/* ─── Archive Overlay ─── */}
         <AnimatePresence>
           {archiveOpen && (
-            <ProjectArchive onClose={() => setArchiveOpen(false)} />
+            <ProjectArchive
+              onClose={() => setArchiveOpen(false)}
+              projects={localized}
+            />
           )}
         </AnimatePresence>
       </>

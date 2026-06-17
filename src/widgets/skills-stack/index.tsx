@@ -1,14 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SITE_CONTENT } from '../../shared/config';
 import { useTranslation } from 'react-i18next';
+import { useSkills } from '../../entities/site/hooks';
+import { pickLocale, LocalizedString } from '../../entities/site/model';
+import { useLang } from '../../contexts/LangContext';
 
 export const SkillsStack = () => {
   const { t } = useTranslation();
-  const { categories } = SITE_CONTENT.skills;
-  const [activeTab, setActiveTab] = useState(categories[0].id);
+  const { lang } = useLang();
+  const { categories, loading } = useSkills();
+  const [activeTab, setActiveTab] = useState<string>('');
+
+  // Set default tab khi categories load xong
+  useEffect(() => {
+    if (!activeTab && categories.length > 0) {
+      setActiveTab(categories[0].id);
+    }
+  }, [categories, activeTab]);
 
   const activeCategory = categories.find(c => c.id === activeTab);
+  const loc = (s: LocalizedString) => pickLocale(s, lang);
 
   return (
     <section id="about" className="w-full py-24 bg-slate-50 dark:bg-abyss-900 relative z-10 border-y border-slate-200 dark:border-white/5 overflow-hidden isolate transition-colors duration-300">
@@ -19,7 +30,7 @@ export const SkillsStack = () => {
             {t('common.skills_headline')}
           </h2>
 
-          {/* Tabs - 6 tabs */}
+          {/* Tabs */}
           <div className="flex flex-wrap justify-center gap-2 mb-12 p-2 bg-white/70 dark:bg-abyss-800/70 rounded-2xl backdrop-blur-md border border-slate-200 dark:border-white/5 shadow-sm">
             {categories.map((cat) => (
                <button
@@ -36,47 +47,53 @@ export const SkillsStack = () => {
                      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                    />
                  )}
-                 <span className="relative z-10">{cat.name}</span>
+                 <span className="relative z-10">{loc(cat.name)}</span>
                </button>
             ))}
           </div>
 
           {/* Skills Grid - responsive */}
-          <div className="w-full max-w-6xl relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.25 }}
-                className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 w-full"
-              >
-                {activeCategory?.items.map((skill, idx) => (
-                  <motion.div
-                    key={skill.name}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: idx * 0.03, duration: 0.3 }}
-                    className="flex flex-col items-center justify-center p-4 bg-white dark:bg-abyss-800 border border-slate-200 dark:border-white/5 rounded-xl shadow-sm hover:border-ocean-300 dark:hover:border-ocean-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group cursor-pointer"
-                  >
-                    <div className="w-12 h-12 mb-2 flex items-center justify-center rounded-lg bg-slate-50 dark:bg-abyss-700 group-hover:bg-ocean-50 dark:group-hover:bg-ocean-900/20 transition-colors">
-                      <img
-                        src={skill.icon}
-                        alt={skill.name}
-                        className="w-8 h-8 object-contain"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
-                      />
-                    </div>
-                    <span className="text-[10px] font-bold tracking-wider text-slate-500 dark:text-slate-400 group-hover:text-ocean-600 dark:group-hover:text-ocean-400 transition-colors uppercase text-center leading-tight">
-                      {skill.name}
-                    </span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+          <div className="w-full max-w-6xl relative min-h-[200px]">
+            {loading && categories.length === 0 ? (
+              <div className="text-center text-slate-400 dark:text-slate-600 text-sm font-mono uppercase tracking-widest py-12">
+                {t('common.loading')}
+              </div>
+            ) : (
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.25 }}
+                  className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 w-full"
+                >
+                  {activeCategory?.items.map((skill, idx) => (
+                    <motion.div
+                      key={skill.name}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: idx * 0.03, duration: 0.3 }}
+                      className="flex flex-col items-center justify-center p-4 bg-white dark:bg-abyss-800 border border-slate-200 dark:border-white/5 rounded-xl shadow-sm hover:border-ocean-300 dark:hover:border-ocean-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group cursor-pointer"
+                    >
+                      <div className="w-12 h-12 mb-2 flex items-center justify-center rounded-lg bg-slate-50 dark:bg-abyss-700 group-hover:bg-ocean-50 dark:group-hover:bg-ocean-900/20 transition-colors">
+                        <img
+                          src={skill.icon}
+                          alt={skill.name}
+                          className="w-8 h-8 object-contain"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                      <span className="text-[10px] font-bold tracking-wider text-slate-500 dark:text-slate-400 group-hover:text-ocean-600 dark:group-hover:text-ocean-400 transition-colors uppercase text-center leading-tight">
+                        {skill.name}
+                      </span>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            )}
           </div>
        </div>
     </section>

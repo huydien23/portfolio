@@ -53,7 +53,7 @@
     "selected_works": "Selected Works",
     "featured_1": "Featured",
     "featured_2": "Projects",
-    "subtitle": "Case studies & technical experiments.",
+    "subtitle": "",
     "view_all": "View All Works",
     "view_details": "View details",
     "tech_stack": "Tech Stack",
@@ -65,7 +65,12 @@
     "highlights": "Key Highlights",
     "all_works": "All Works",
     "close": "Close",
-    "empty": "No projects found"
+    "empty": "No projects found",
+    "coming_soon_section": "// Coming soon",
+    "coming_soon_hint": "Projects currently in development. Detail view is locked, but they'll be live soon.",
+    "coming_soon_badge": "Coming Soon…",
+    "empty_featured": "// No featured projects selected yet",
+    "locked_hint": "Locked"
   },
   "experience": {
     "exp_1_role": "Founder & Team Leader (TechForge)",
@@ -100,5 +105,68 @@
     "social_label": "Social Media",
     "hours_label": "Working Hours",
     "hours_value": "Mon - Sat: 8:00 AM - 6:00 PM"
+  },
+  "admin": {
+    "nav": {
+      "site_content": "Site Content",
+      "skills": "Skills Manager"
+    },
+    "site_content": {
+      "title": "Site Content",
+      "subtitle": "Edit static info on the portfolio: Hero, Brand, Contact, About. Changes apply in real-time.",
+      "tabs": {
+        "hero": "Hero",
+        "brand": "Brand",
+        "contact": "Contact",
+        "about": "About"
+      },
+      "save": "Save changes",
+      "saving": "Saving...",
+      "saved": "Saved!",
+      "section_vi": "Vietnamese",
+      "section_en": "English",
+      "hero_fields": {
+        "title_line_1": "Title line 1",
+        "title_line_2": "Title line 2",
+        "subtitle": "Short description",
+        "cta_text": "CTA button",
+        "available": "Show 'Available for work' badge",
+        "stats": "Stats (3 numbers)"
+      },
+      "brand_fields": {
+        "shorthand": "Brand name (header/footer)",
+        "logo_upload": "Logo (optional)",
+        "logo_hint": "Upload image — auto-compressed under 800KB",
+        "availability": "Show green dot 'available' next to logo"
+      },
+      "contact_fields": {
+        "phone": "Phone number",
+        "email": "Email",
+        "zalo": "Zalo link",
+        "facebook": "Facebook link",
+        "linkedin": "LinkedIn link",
+        "github": "GitHub link",
+        "hours_label": "Working hours label",
+        "hours_value": "Working hours value"
+      },
+      "about_fields": {
+        "headline": "About headline",
+        "body": "About body"
+      }
+    },
+    "skills": {
+      "title": "Skills Manager",
+      "subtitle": "Edit the skills list shown in the 'Technical Skills' section. Add/remove/reorder categories and items.",
+      "add_category": "Add category",
+      "add_item": "Add item",
+      "category_name": "Category name",
+      "item_name": "Skill name",
+      "item_icon": "Icon URL",
+      "delete_category": "Delete category",
+      "delete_item": "Delete item",
+      "save": "Save",
+      "saving": "Saving...",
+      "no_categories": "No categories yet. Click 'Add category' to start."
+    }
   }
 }

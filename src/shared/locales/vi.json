@@ -18,7 +18,7 @@
   "hero": {
     "title_first": "HUY",
     "title_last": "ĐIỀN.",
-    "subtitle": "Chào bạn, tôi là Nguyễn Huy Điền. Là một sinh viên IT thích mài giũa kỹ năng qua thực tế, tôi đã dành hơn 2 năm sinh viên để tự học và làm freelance các dự án Web, App và AI. Tôi luôn nỗ lực viết code sạch, tối ưu và học hỏi không ngừng.",
+    "subtitle": "Chào bạn, tôi là Nguyễn Huy Điền. Là một lập trình viên đam mê công nghệ, tôi luôn sẵn sàng khám phá và tạo ra những giải pháp sáng tạo. Hãy cùng tôi khám phá hành trình lập trình của mình qua những dự án thực tế và kinh nghiệm làm việc đa dạng.",
     "cta": "Khám Phá Dự Án",
     "stat_exp": "Năm KN",
     "stat_projects": "Dự Án",
@@ -53,7 +53,7 @@
     "selected_works": "Dự Án Chọn Lọc",
     "featured_1": "Dự Án",
     "featured_2": "Nổi Bật",
-    "subtitle": "Nghiên cứu điển hình & sản phẩm thực tế.",
+    "subtitle": "",
     "view_all": "Xem Tất Cả Dự Án",
     "view_details": "Xem chi tiết",
     "tech_stack": "Công Nghệ",
@@ -65,7 +65,12 @@
     "highlights": "Điểm Nổi Bật",
     "all_works": "Toàn Bộ Dự Án",
     "close": "Đóng",
-    "empty": "Chưa có dự án"
+    "empty": "Chưa có dự án",
+    "coming_soon_section": "// Sắp ra mắt",
+    "coming_soon_hint": "Những dự án đang được phát triển. Hiện tại chưa thể xem chi tiết, nhưng sẽ sớm ra mắt.",
+    "coming_soon_badge": "Coming Soon…",
+    "empty_featured": "// Chưa có dự án nổi bật nào được chọn",
+    "locked_hint": "Chưa mở khoá"
   },
   "experience": {
     "exp_1_role": "Founder & Trưởng Nhóm (Team TechForge)",
@@ -100,5 +105,68 @@
     "social_label": "Mạng xã hội",
     "hours_label": "Giờ làm việc",
     "hours_value": "T2 - T7: 8:00 - 18:00"
+  },
+  "admin": {
+    "nav": {
+      "site_content": "Nội Dung Trang",
+      "skills": "Quản Lý Skills"
+    },
+    "site_content": {
+      "title": "Nội Dung Trang",
+      "subtitle": "Sửa các thông tin tĩnh trên portfolio: Hero, Brand, Contact, About. Thay đổi cập nhật real-time.",
+      "tabs": {
+        "hero": "Hero",
+        "brand": "Brand",
+        "contact": "Contact",
+        "about": "About"
+      },
+      "save": "Lưu thay đổi",
+      "saving": "Đang lưu...",
+      "saved": "Đã lưu!",
+      "section_vi": "Tiếng Việt",
+      "section_en": "Tiếng Anh",
+      "hero_fields": {
+        "title_line_1": "Tiêu đề dòng 1",
+        "title_line_2": "Tiêu đề dòng 2",
+        "subtitle": "Mô tả ngắn",
+        "cta_text": "Nút CTA",
+        "available": "Hiện badge 'Sẵn sàng nhận việc'",
+        "stats": "Thống kê (3 số)"
+      },
+      "brand_fields": {
+        "shorthand": "Tên thương hiệu (header/footer)",
+        "logo_upload": "Logo (tùy chọn)",
+        "logo_hint": "Upload ảnh — tự nén xuống dưới 800KB",
+        "availability": "Hiện chấm xanh 'available' cạnh logo"
+      },
+      "contact_fields": {
+        "phone": "Số điện thoại",
+        "email": "Email",
+        "zalo": "Link Zalo",
+        "facebook": "Link Facebook",
+        "linkedin": "Link LinkedIn",
+        "github": "Link GitHub",
+        "hours_label": "Nhãn giờ làm việc",
+        "hours_value": "Giờ làm việc"
+      },
+      "about_fields": {
+        "headline": "Tiêu đề About",
+        "body": "Nội dung About"
+      }
+    },
+    "skills": {
+      "title": "Quản Lý Kỹ Năng",
+      "subtitle": "Sửa danh sách kỹ năng hiển thị ở section \"Kỹ năng của tôi\". Có thể thêm/xóa/reorder category và item.",
+      "add_category": "Thêm category",
+      "add_item": "Thêm item",
+      "category_name": "Tên category",
+      "item_name": "Tên kỹ năng",
+      "item_icon": "URL icon",
+      "delete_category": "Xóa category",
+      "delete_item": "Xóa item",
+      "save": "Lưu",
+      "saving": "Đang lưu...",
+      "no_categories": "Chưa có category nào. Bấm \"Thêm category\" để bắt đầu."
+    }
   }
 }

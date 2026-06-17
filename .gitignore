@@ -26,3 +26,12 @@ dist-ssr
 
 .agent/
 .claude/
+
+# Firebase service account key 
+scripts/service-account.json
+**/service-account*.json
+.firebase/
+firestore.rules
+.claude/
+CLAUDE.md
+scripts/

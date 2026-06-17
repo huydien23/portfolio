@@ -1,4 +1,3 @@
-import { ProjectEntity } from '../../entities/project/model';
 export const SITE_CONTENT = {
   hero: {
     titleLines: ['HUY', 'ĐIỀN.'],

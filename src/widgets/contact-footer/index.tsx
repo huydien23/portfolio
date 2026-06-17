@@ -18,7 +18,8 @@ import {
 } from 'lucide-react';
 import { db } from '../../shared/api/firebase/config';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { SITE_CONTENT } from '../../shared/config';
+import { useSiteProfile } from '../../entities/site/hooks';
+import { pickLocale, LocalizedString } from '../../entities/site/model';
 
 type ChatStep = 'typing_message' | 'collect_info' | 'success';
 
@@ -30,6 +31,9 @@ interface Message {
 
 export const ContactFooter = () => {
   const { t } = useTranslation();
+  const { profile, lang } = useSiteProfile();
+  const contact = profile.contact;
+  const loc = (s: LocalizedString) => pickLocale(s, lang);
   const [step, setStep] = useState<ChatStep>('typing_message');
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -344,7 +348,7 @@ export const ContactFooter = () => {
 
               <div className="flex flex-col gap-3">
                 <a
-                  href={`tel:${SITE_CONTENT.contact.phone.replace(/\./g, '')}`}
+                  href={`tel:${contact.phone.replace(/\./g, '')}`}
                   className="flex items-center gap-3 p-3 bg-white dark:bg-slate-700/50 rounded-xl hover:bg-ocean-50 dark:hover:bg-ocean-900/30 transition-colors group"
                 >
                   <span className="w-10 h-10 bg-ocean-100 dark:bg-ocean-900/50 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -352,12 +356,12 @@ export const ContactFooter = () => {
                   </span>
                   <div>
                     <p className="text-xs font-mono text-slate-500 uppercase">{t('contact.phone_label')}</p>
-                    <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{SITE_CONTENT.contact.phone}</p>
+                    <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{contact.phone}</p>
                   </div>
                 </a>
 
                 <a
-                  href={`mailto:${SITE_CONTENT.contact.email}`}
+                  href={`mailto:${contact.email}`}
                   className="flex items-center gap-3 p-3 bg-white dark:bg-slate-700/50 rounded-xl hover:bg-ocean-50 dark:hover:bg-ocean-900/30 transition-colors group"
                 >
                   <span className="w-10 h-10 bg-ocean-100 dark:bg-ocean-900/50 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -365,14 +369,14 @@ export const ContactFooter = () => {
                   </span>
                   <div className="min-w-0">
                     <p className="text-xs font-mono text-slate-500 uppercase">Email</p>
-                    <p className="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">{SITE_CONTENT.contact.email}</p>
+                    <p className="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">{contact.email}</p>
                   </div>
                 </a>
 
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={SITE_CONTENT.contact.zalo}
+                  href={contact.zalo}
                   className="flex items-center gap-3 p-3 bg-white dark:bg-slate-700/50 rounded-xl hover:bg-ocean-50 dark:hover:bg-ocean-900/30 transition-colors group"
                 >
                   <span className="w-10 h-10 bg-ocean-100 dark:bg-ocean-900/50 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -394,7 +398,7 @@ export const ContactFooter = () => {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href={SITE_CONTENT.contact.github}
+                    href={contact.github}
                     className="flex-1 flex items-center justify-center gap-1.5 p-2.5 bg-white dark:bg-slate-700/50 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-900 hover:text-white transition-colors text-sm font-medium"
                   >
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" alt="GitHub" className="w-4 h-4 dark:invert group-hover:invert-0" />
@@ -403,7 +407,7 @@ export const ContactFooter = () => {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href={SITE_CONTENT.contact.linkedin}
+                    href={contact.linkedin}
                     className="flex-1 flex items-center justify-center gap-1.5 p-2.5 bg-white dark:bg-slate-700/50 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-900 hover:text-white transition-colors text-sm font-medium"
                   >
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-original.svg" alt="LinkedIn" className="w-4 h-4" />
@@ -412,7 +416,7 @@ export const ContactFooter = () => {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href={SITE_CONTENT.contact.facebook}
+                    href={contact.facebook}
                     className="flex-1 flex items-center justify-center gap-1.5 p-2.5 bg-white dark:bg-slate-700/50 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-900 hover:text-white transition-colors text-sm font-medium"
                   >
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/facebook/facebook-original.svg" alt="Facebook" className="w-4 h-4" />
@@ -425,9 +429,9 @@ export const ContactFooter = () => {
               <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
                   <p className="text-xs font-mono text-slate-500 uppercase mb-1 flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5" />
-                    {t('contact.hours_label')}
+                    {loc(contact.hoursLabel)}
                   </p>
-                  <p className="text-sm text-slate-700 dark:text-slate-300">{t('contact.hours_value')}</p>
+                  <p className="text-sm text-slate-700 dark:text-slate-300">{loc(contact.hoursValue)}</p>
               </div>
             </div>
           </motion.div>
@@ -436,7 +440,7 @@ export const ContactFooter = () => {
 
       {/* Footer - Copyright only */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-20 pt-8 border-t border-slate-200 dark:border-slate-800 text-center md:text-left text-slate-500 text-sm font-mono tracking-wider">
-        <p>© {new Date().getFullYear()} {t('common.brand_shorthand')}. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} {profile.brand.shorthand}. All rights reserved.</p>
       </div>
     </footer>
   );

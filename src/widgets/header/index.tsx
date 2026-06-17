@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Moon, Sun } from 'lucide-react';
-import { SITE_CONTENT } from '../../shared/config';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLang } from '../../contexts/LangContext';
+import { useSiteProfile } from '../../entities/site/hooks';
 
 export const HeaderWidget = () => {
   const location = useLocation();
@@ -13,6 +13,8 @@ export const HeaderWidget = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { lang, toggleLang, t } = useLang();
+  const { profile } = useSiteProfile();
+  const brand = profile.brand;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -54,9 +56,13 @@ export const HeaderWidget = () => {
             to="/"
             className={`font-bold text-xl tracking-tighter uppercase flex items-center gap-1 cursor-pointer transition-colors duration-300 ${logoColor}`}
           >
-            {t('common.brand_shorthand')}
+            {brand.logoData ? (
+              <img src={brand.logoData} alt={brand.shorthand} className="h-7 w-auto object-contain" />
+            ) : (
+              <span>{brand.shorthand}</span>
+            )}
             <span className="text-ocean-500">.</span>
-            {SITE_CONTENT.brand.availability && (
+            {brand.availability && (
               <div className="relative flex h-2 w-2 ml-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ocean-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-ocean-500" />
@@ -238,7 +244,7 @@ export const HeaderWidget = () => {
             {/* Brand tag */}
             <div className="relative z-10 flex items-center gap-3 text-xs font-mono text-slate-400 dark:text-white/30 tracking-widest">
               <span className="w-8 h-px bg-slate-200 dark:bg-white/10" />
-              {t('common.brand_shorthand')}
+              {brand.shorthand}
               <span className="text-ocean-500">.</span>
               <span className="w-8 h-px bg-slate-200 dark:bg-white/10" />
             </div>

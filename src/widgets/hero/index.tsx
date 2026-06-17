@@ -1,14 +1,30 @@
 import { motion } from 'framer-motion';
 import { TechOrbit } from './ui/tech-orbit';
 import { useLang } from '../../contexts/LangContext';
+import { useSiteProfile } from '../../entities/site/hooks';
+import { pickLocale, LocalizedString } from '../../entities/site/model';
 
 export const HeroSection = () => {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const { profile } = useSiteProfile();
+  const hero = profile.hero;
 
+  const loc = (s: LocalizedString) => pickLocale(s, lang);
+
+  // Stats fall back to static i18n strings when the admin hasn't seeded yet.
   const stats = [
-    { value: '2+', label: t('hero.stat_exp') },
-    { value: '15+', label: t('hero.stat_projects') },
-    { value: '12+', label: t('hero.stat_stack') },
+    {
+      value: hero.stats[0]?.value || '2+',
+      label: loc(hero.stats[0]?.label) || t('hero.stat_exp'),
+    },
+    {
+      value: hero.stats[1]?.value || '15+',
+      label: loc(hero.stats[1]?.label) || t('hero.stat_projects'),
+    },
+    {
+      value: hero.stats[2]?.value || '12+',
+      label: loc(hero.stats[2]?.label) || t('hero.stat_stack'),
+    },
   ];
 
   return (
@@ -23,17 +39,19 @@ export const HeroSection = () => {
         <div className="w-full lg:w-1/2 flex flex-col justify-center">
 
           {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-6 flex items-center gap-2 w-fit"
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ocean-50 dark:bg-ocean-900/20 border border-ocean-200 dark:border-ocean-800 text-ocean-700 dark:text-ocean-300 text-xs font-mono tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-ocean-400 animate-pulse" />
-              {t('common.available')}
-            </span>
-          </motion.div>
+          {hero.available && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-6 flex items-center gap-2 w-fit"
+            >
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ocean-50 dark:bg-ocean-900/20 border border-ocean-200 dark:border-ocean-800 text-ocean-700 dark:text-ocean-300 text-xs font-mono tracking-widest uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-ocean-400 animate-pulse" />
+                {t('common.available')}
+              </span>
+            </motion.div>
+          )}
 
           {/* Title */}
           <motion.div
@@ -43,8 +61,8 @@ export const HeroSection = () => {
             className="mb-6"
           >
             <h1 className="font-display flex flex-wrap items-center gap-[0.25em] text-5xl md:text-6xl lg:text-[4.5rem] font-bold tracking-tight text-slate-900 dark:text-white uppercase leading-normal antialiased">
-              <span className="text-slate-900 dark:text-white pt-3 pb-3">{t('hero.title_first')}</span>
-              <span className="text-ocean-500 pt-3 pb-3">{t('hero.title_last')}</span>
+              <span className="text-slate-900 dark:text-white pt-3 pb-3">{loc(hero.titleLine1)}</span>
+              <span className="text-ocean-500 pt-3 pb-3">{loc(hero.titleLine2)}</span>
             </h1>
           </motion.div>
 
@@ -55,7 +73,7 @@ export const HeroSection = () => {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-xl leading-relaxed mb-8"
           >
-            {t('hero.subtitle')}
+            {loc(hero.subtitle)}
           </motion.p>
 
           {/* Stats row */}
@@ -88,7 +106,7 @@ export const HeroSection = () => {
               className="group relative px-8 md:px-10 py-4 md:py-5 bg-ocean-600 text-white font-bold tracking-widest text-xs md:text-sm uppercase overflow-hidden rounded-xl hover:bg-ocean-500 hover:-translate-y-1 active:scale-95 transition-all shadow-md shadow-ocean-200 cursor-pointer"
             >
               <span className="relative z-10 font-mono flex gap-2 items-center">
-                [ {t('hero.cta')} ]
+                [ {loc(hero.ctaText) || t('hero.cta')} ]
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter" className="group-hover:translate-x-1 transition-transform">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />

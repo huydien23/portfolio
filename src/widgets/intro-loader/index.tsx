@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { SITE_CONTENT } from '../../shared/config';
+import { useSiteProfile } from '../../entities/site/hooks';
 
 interface IntroLoaderProps {
   onComplete: () => void;
@@ -9,6 +9,7 @@ interface IntroLoaderProps {
 
 export const IntroLoader = ({ onComplete }: IntroLoaderProps) => {
   const { t } = useTranslation();
+  const { profile } = useSiteProfile();
   const [progress, setProgress] = useState(0);
   const [showText, setShowText] = useState(false);
 
@@ -126,7 +127,8 @@ export const IntroLoader = ({ onComplete }: IntroLoaderProps) => {
               className="text-2xl md:text-3xl font-light text-white/80"
             >
               <span className="text-ocean-400">~</span>{' '}
-              {SITE_CONTENT.hero.titleLines[0]} {SITE_CONTENT.hero.titleLines[1]}{' '}
+              {profile.hero.titleLine1.vi.toUpperCase()}{' '}
+              {profile.hero.titleLine2.vi}{' '}
               <span className="text-ocean-400">~</span>
             </motion.p>
             <motion.p

@@ -6,7 +6,11 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
+  html, body {
+    @apply overflow-x-hidden;
+  }
+
   body {
     @apply font-sans text-gray-900 dark:text-gray-100;
   }
@@ -57,4 +61,22 @@
 /* Profile page — editorial quote */
 .profile-quote-mark {
   font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* ── Admin form input ── */
+@layer components {
+  .form-input {
+    @apply w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-abyss-700
+           bg-white dark:bg-abyss-900 text-slate-900 dark:text-white
+           placeholder:text-slate-400 dark:placeholder:text-slate-500
+           focus:outline-none focus:ring-2 focus:ring-ocean-500/30 focus:border-ocean-500
+           transition disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  select.form-input {
+    @apply pr-8 appearance-none bg-no-repeat bg-right;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-position: right 0.6rem center;
+    background-size: 0.75rem;
+  }
 }
